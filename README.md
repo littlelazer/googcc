@@ -4,6 +4,7 @@ Google Closure Compiler Script
 This is a small python script that allows you to call the [Google Closure Compiler API](https://developers.google.com/closure/compiler/) from the command line to minify your files. It is mostly taken from the [example](https://developers.google.com/closure/compiler/docs/api-tutorial1) in the api documentation.
 
 To use the script: 
+
 1. Clone this repo to wherever you want on your computer
 2. Make the googcc file executable (chmod a+x googcc)
 3. In the terminal, go to /usr/local/bin
