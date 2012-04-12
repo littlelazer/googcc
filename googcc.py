@@ -7,7 +7,7 @@ import httplib, urllib, sys
 
 from sys import argv
 
-script, filename = argv
+script, filename, tofile = argv
 
 txt = open(filename)
 
@@ -24,5 +24,7 @@ conn = httplib.HTTPConnection('closure-compiler.appspot.com')
 conn.request('POST', '/compile', params, headers)
 response = conn.getresponse()
 data = response.read()
-print data
+
+target = open(tofile, 'w')
+target.write(data)
 conn.close
