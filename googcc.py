@@ -5,8 +5,14 @@ import httplib, urllib, sys
 # Define the parameters for the POST request and encode them in
 # a URL-safe format.
 
+from sys import argv
+
+script, filename = argv
+
+txt = open(filename)
+
 params = urllib.urlencode([
-    ('js_code', sys.argv[1]),
+    ('js_code', txt.read()),
     ('compilation_level', 'WHITESPACE_ONLY'),
     ('output_format', 'text'),
     ('output_info', 'compiled_code'),
