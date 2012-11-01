@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import httplib, urllib, sys
+import httplib, urllib, sys, json
 
 # Define the parameters for the POST request and encode them in
 # a URL-safe format.
@@ -10,13 +10,14 @@ from sys import argv
 script, filename, tofile = argv
 
 txt = open(filename)
+file_contents = txt.read()
 
 params = urllib.urlencode([
-    ('js_code', txt.read()),
+    ('js_code', file_contents),
     ('compilation_level', 'WHITESPACE_ONLY'),
-    ('output_format', 'text'),
+    ('output_format', 'json'),
     ('output_info', 'compiled_code'),
-  ])
+])
 
 # Always use the following value for the Content-type header.
 headers = { "Content-type": "application/x-www-form-urlencoded" }
@@ -24,7 +25,21 @@ conn = httplib.HTTPConnection('closure-compiler.appspot.com')
 conn.request('POST', '/compile', params, headers)
 response = conn.getresponse()
 data = response.read()
+js = json.loads(data)
 
-target = open(tofile, 'w')
-target.write(data)
+if js['compiledCode']:
+    target = open(tofile, 'w')
+    target.write( js['compiledCode'] )
+else:
+    params = urllib.urlencode([
+        ('js_code', file_contents),
+        ('compilation_level', 'WHITESPACE_ONLY'),
+        ('output_format', 'text'),
+        ('output_info', 'errors'),
+    ])
+    conn.request('POST', '/compile', params, headers)
+    response = conn.getresponse()
+    data = response.read()
+    print data
+
 conn.close
