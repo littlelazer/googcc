@@ -12,7 +12,7 @@ To use the script:
 5. Restart (or just reload) shell session
 
 Then you should be able to call this script like this at the prompt from any directory:
-googcc _original-file-name_ _minified-file-name_
+`googcc <original-file-name> <minified-file-name>`
 
 I've been using a full path for both of those files, but I don't think you need to.
 
